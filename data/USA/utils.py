@@ -197,7 +197,7 @@ def format_fields(raw_fields):
                 "fields": {},
                 "agg_weights": {},
                 "fields_universe": {},
-            }
+            } 
 
             for yr in years:
                 field_to_col = {}

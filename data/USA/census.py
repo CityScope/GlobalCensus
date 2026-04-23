@@ -2,7 +2,7 @@
 from typing import List, Union, Dict
 
 from pathlib import Path
-import json 
+import json  
 import geopandas as gpd
 
 from ...core import hierarchy

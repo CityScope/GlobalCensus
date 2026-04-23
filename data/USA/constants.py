@@ -366,7 +366,7 @@ CENSUS_FIELDS = {
                 "meanCommuteTime": "total",
                 "meanTransitCommuteTime": "total",
             },
-        },
+        }, 
 
         # VEHICLES
         "vehicles": {

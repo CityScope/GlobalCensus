@@ -277,7 +277,7 @@ class MultiresPolygonData:
         return True
 
     # -------------------------------------------------------------------------
-    # Consistency
+    # Consistency 
     # -------------------------------------------------------------------------
 
     def _fill_columns_internal(self) -> None:
