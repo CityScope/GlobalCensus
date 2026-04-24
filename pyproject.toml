@@ -15,3 +15,29 @@ dependencies = [
     "shapely>=2.1.2",
     "us>=3.2.0",
 ]
+
+[project.optional-dependencies]
+
+# Optional extras for development or docs
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.0.0",
+    "black>=24.8.0",
+    "ruff>=0.6.0",
+]
+
+docs = [
+    "sphinx>=7.3.0",
+    "myst-parser>=3.0.1",
+    "furo>=2024.8.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

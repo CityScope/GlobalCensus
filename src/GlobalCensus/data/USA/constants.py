@@ -196,6 +196,45 @@ GEOMETRY_FUNCS = {
     "county_subdivision": pygris.county_subdivisions,
 }
 
+ERASE_WATER = {
+    # Census geographies
+    "block": True,
+    "blockgroup": True,
+    "block group": True,
+    "block_group": True,
+    "tract": True,
+    "tracts": True,
+    "place": False,
+    "places": False,
+    "county": False,
+    "counties": False,
+    "state": False,
+    "nation": False,
+    # Statistical areas
+    "division": False,
+    "region": False,
+    "core_based_statistical_area": False,
+    "combined_statistical_area": False,
+    "metro_division": False,
+    "new_england": False,
+    "puma": False,
+    "urban_area": False,
+    # Political / voting districts
+    "congressional_district": True,
+    "state_legislative_district": True,
+    "voting_district": True,
+    # School / educational
+    "school_district": True,
+    # Tribal / native
+    "native_area": False,
+    "alaska_native_regional_corporation": False,
+    "tribal_block_group": True,
+    "tribal_tract": True,
+    "tribal_subdivisions_national": False,
+    # Additional administrative
+    "county_subdivision": False,
+}
+
 
 CENSUS_FIELDS = {
     # ============================================================

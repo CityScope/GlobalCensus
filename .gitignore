@@ -30,3 +30,7 @@ build/
 # examples/local*
 
 **/api_keys.py
+
+# anything with "cache" in folder or file name
+**/*cache*/
+**/*cache*

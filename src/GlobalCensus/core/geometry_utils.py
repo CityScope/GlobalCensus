@@ -745,3 +745,27 @@ def resample_gdf(
         id_column=id_column,
     )
     return result
+
+
+def get_city_geometry(city_name: str) -> gpd.GeoDataFrame:
+    """
+    Download city boundary geometry from OpenStreetMap.
+
+    Parameters
+    ----------
+    city_name : str
+        Name of the city (e.g., "Berlin, Germany").
+
+    Returns
+    -------
+    gdf : geopandas.GeoDataFrame
+        GeoDataFrame containing the city boundary polygon in EPSG:4326.
+    """
+    import osmnx as ox 
+    
+    # Query OSM for place boundary
+    gdf = ox.geocode_to_gdf(city_name)
+
+    # Ensure CRS is WGS84
+    gdf = gdf.to_crs(epsg=4326)
+    return gdf

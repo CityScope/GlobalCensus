@@ -1,4 +1,9 @@
+import os 
+import platformdirs 
+from typing import List, Dict, Iterable, Optional, Union
+from pathlib import Path
 
+from . import constants
 # ============================================================
 # UTILITIES
 # ============================================================
@@ -14,7 +19,7 @@ def fields_filter(
     source: list[str] | str | None = None,
     year: list[str] | int | None = None,
     field: list[str] | str | None = None,
-    census_fields: dict=CENSUS_FIELDS,
+    census_fields: dict=constants.CENSUS_FIELDS,
 ) -> dict:
     if isinstance(filters,str) and filters == "all":
         return census_fields 
@@ -150,7 +155,7 @@ def pick_geoid_column(cols: Iterable[str]) -> Optional[str]:
 
 def get_field_col_name(source: str, field_code: str) -> str:
     # Invert SOURCE_MAPPING
-    inverted = {v: k for k, v in SOURCE_MAPPING.items()}
+    inverted = {v: k for k, v in constants.SOURCE_MAPPING.items()}
 
     # Normalize source using inverted lookup if possible
     s = inverted.get(source, source)
@@ -175,7 +180,7 @@ def format_fields(raw_fields):
     formatted = {}
 
     for src_key, topics in raw_fields.items():
-        api_src = SOURCE_MAPPING.get(src_key, src_key)
+        api_src = constants.SOURCE_MAPPING.get(src_key, src_key)
 
         if "source" in topics.keys():
             return raw_fields # Already formatted
@@ -184,7 +189,7 @@ def format_fields(raw_fields):
             # Resolve years
             raw_years = content.get("years", "latest")
             if raw_years in [None, "latest"]:
-                years = [CENSUS_LATEST_YEARS.get(api_src, 2020)]
+                years = [constants.CENSUS_LATEST_YEARS.get(api_src, 2020)]
             else:
                 years = [raw_years] if isinstance(raw_years, (int, str)) else list(raw_years)
 
