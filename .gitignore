@@ -34,3 +34,5 @@ build/
 # anything with "cache" in folder or file name
 **/*cache*/
 **/*cache*
+
+**/secrets.txt

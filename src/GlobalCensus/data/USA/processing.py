@@ -66,7 +66,7 @@ def fetch_raw_data(state_abbr: str, year: int, level: str, source: str, fields: 
     rename_map = {f: us_utils.get_field_col_name(source, f) for f in fields if f in df.columns}
     return df[["GEOID"] + list(rename_map.keys())].rename(columns=rename_map)
 
-def process_state_year(state: str, year: int, level: str, census_fields: Dict, aoi_bounds: Optional[tuple], cache_dir: str, api_key: str, erase_water: bool) -> pl.DataFrame:
+def process_state_year(state: str, year: int, level: str, census_fields: Dict, aoi_bounds: Optional[tuple], cache_dir: str, api_key: str, erase_water: bool, cb: bool = False) -> pl.DataFrame:
     state_obj = us.states.lookup(state)
     path = us_utils.get_cache_path(cache_dir, state_obj.abbr, year, level, erase_water)
     
@@ -88,7 +88,22 @@ def process_state_year(state: str, year: int, level: str, census_fields: Dict, a
             gdf = gpd.read_parquet(path)
         else:
             func = constants.GEOMETRY_FUNCS.get(level, pygris.block_groups)
-            gdf = func(state=state_obj.abbr, year=year, cache=True).to_crs(4326)
+            # Build kwargs only with parameters that the function accepts
+            sig = inspect.signature(func)
+            func_args = {}
+            if "state" in sig.parameters:
+                func_args["state"] = state_obj.abbr
+            if "year" in sig.parameters:
+                func_args["year"] = year
+            if "cache" in sig.parameters:
+                func_args["cache"] = True
+            if "cb" in sig.parameters:
+                func_args["cb"] = cb
+
+            gdf = func(**func_args).to_crs(4326)
+            if level == "state":
+                gdf = gdf[gdf["STUSPS"] == str(state_obj.abbr)].reset_index(drop=True)
+
             if erase_water: gdf = pygris.utils.erase_water(gdf, cache=True)
             if "GEOID" not in gdf.columns:
                 gdf["GEOID"] = gdf[us_utils.pick_geoid_column(gdf.columns)].astype(str)
